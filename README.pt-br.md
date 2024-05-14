@@ -211,6 +211,82 @@ func TestAddressType(t *testing.T) {
 ```
 Rode no terminal dentro de ```/addresses``` ```go test``` e veja o resultado.  
 
+### Dicas
+```go test ./...``` entra em todas os packages verificando os aquivos test  
+```go test -v``` modo verboso do test  
+Para rodar em paralelo podemos adicionar no inicio da função, caso  haja mais de uma função de test no seu arquivo teste ```t.Parallel()```  e deve ser adicionado em todas as funções que você deseja que rode em paralelo.   
+
+```go test --cover``` Mostra se seu cenário está sendo coberto 100%, mostra a % da cobertura dos seus estados / execuções, ou seja todas as linhas da função que estamos testando estão cobertas.  
+
+```go test --coverprofile doc.txt``` contem um relatorio das linhas que estao cobertas e que nao estao  
+
+```go tool cover --func=doc.txt``` vai ler o arquivo txt entender e jogar no terminal
+
+```go tool cover --html=doc.txt``` mostra um arquivo html que vai ter um visual bonitinho de todas as linhas nao cobertas  
+
+### Subtests
+Create a new directory called forms with two ```form.go``` files,```form_test.go```:  
+```form.go```  
+```go
+package form
+
+import (
+	"math"
+)
+
+func (r Rectangle) Area() float64 {
+	return r.Height * r.Width
+}
+func (c Circle) Area() float64 {
+	return math.Pi * (c.Rad * c.Rad)
+}
+
+type Circle struct {
+	Rad float64
+}
+
+type Rectangle struct {
+	Height float64
+	Width  float64
+}
+
+type Form interface {
+	Area() float64
+}
+```  
+```form_test.go```  
+```go
+package form
+
+import (
+	"math"
+	"testing"
+)
+
+func TestArea(t *testing.T) {
+	t.Run("Rectangle area", func(t *testing.T) {
+		r := Rectangle{10, 12}
+		expectedArea := float64(120)
+		receivedArea := r.Area()
+
+		if expectedArea != receivedArea {
+			//fatal vai parar os testes
+			t.Fatalf("Received area %f, expected is %f", receivedArea, expectedArea)
+		}
+	})
+	t.Run("Circle area", func(t *testing.T) {
+		c := Circle{10}
+
+		expectedArea := float64(math.Pi * 100)
+		receivedArea := c.Area()
+		if expectedArea != receivedArea {
+			//fatal vai parar os testes
+			t.Fatalf("Received area %f, expected is %f", receivedArea, expectedArea)
+		}
+	})
+}
+```  
+Here we make a group of tests, running one after the other in sequence, if you don't want your application to stop the tests when giving an error, just change ```t.Fatalf``` to ```t.Errof```
 
 
 

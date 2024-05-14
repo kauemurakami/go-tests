@@ -211,7 +211,18 @@ func TestAddressType(t *testing.T) {
 ```
 Run in the terminal inside ```/addresses``` ```go test``` and see the result. 
 
+### Tips
+```go test ./...``` goes into all packages checking the test files  
+```go test -v``` detailed test mode  
+To run in parallel we can add ```t.Parallel()``` at the beginning of the function, if there is more than one test function in your test file and it must be added to all functions that you want to run in parallel.  
 
+```go test --cover``` Shows if your scenario is being covered 100%, shows the % coverage of its states / executions, that is, all lines of the function we are testing are covered.  
+
+```go test --coverprofile doc.txt``` contains a report of lines that are covered and not  
+
+```go tool cover --func=doc.txt``` will read the txt file, understand it and play it in the terminal  
+
+```go tool cover --html=doc.txt``` shows an html file that will have a nice look of all the lines not covered
 
 
 

@@ -11,7 +11,7 @@ type test_scenario struct {
 }
 
 func TestAddressType(t *testing.T) {
-
+	t.Parallel()
 	scenarios_of_Test := []test_scenario{
 		{"Street Abc", "Street"},
 		{"Avenue xyz", "Avenue"},
@@ -34,7 +34,13 @@ func TestAddressType(t *testing.T) {
 			)
 		}
 	}
+}
 
+func FuncTestAnyway(t *testing.T) {
+	t.Parallel()
+	if 1 > 2 {
+		t.Errorf("Test break")
+	}
 }
 
 // before refactor
