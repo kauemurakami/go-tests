@@ -224,6 +224,70 @@ To run in parallel we can add ```t.Parallel()``` at the beginning of the functio
 
 ```go tool cover --html=doc.txt``` shows an html file that will have a nice look of all the lines not covered
 
+### Subtests
+Create a new directory called forms with two ```form.go``` files,```form_test.go```:  
+```form.go```  
+```go
+package form
+
+import (
+	"math"
+)
+
+func (r Rectangle) Area() float64 {
+	return r.Height * r.Width
+}
+func (c Circle) Area() float64 {
+	return math.Pi * (c.Rad * c.Rad)
+}
+
+type Circle struct {
+	Rad float64
+}
+
+type Rectangle struct {
+	Height float64
+	Width  float64
+}
+
+type Form interface {
+	Area() float64
+}
+```  
+```form_test.go```  
+```go
+package form
+
+import (
+	"math"
+	"testing"
+)
+
+func TestArea(t *testing.T) {
+	t.Run("Rectangle area", func(t *testing.T) {
+		r := Rectangle{10, 12}
+		expectedArea := float64(120)
+		receivedArea := r.Area()
+
+		if expectedArea != receivedArea {
+			//fatal vai parar os testes
+			t.Fatalf("Received area %f, expected is %f", receivedArea, expectedArea)
+		}
+	})
+	t.Run("Circle area", func(t *testing.T) {
+		c := Circle{10}
+
+		expectedArea := float64(math.Pi * 100)
+		receivedArea := c.Area()
+		if expectedArea != receivedArea {
+			//fatal vai parar os testes
+			t.Fatalf("Received area %f, expected is %f", receivedArea, expectedArea)
+		}
+	})
+}
+```  
+Here we make a group of tests, running one after the other in sequence, if you don't want your application to stop the tests when giving an error, just change ```t.Fatalf``` to ```t.Errof```
+
 
 
 

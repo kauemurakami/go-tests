@@ -225,7 +225,7 @@ Para rodar em paralelo podemos adicionar no inicio da função, caso  haja mais 
 ```go tool cover --html=doc.txt``` mostra um arquivo html que vai ter um visual bonitinho de todas as linhas nao cobertas  
 
 ### Subtests
-Create a new directory called forms with two ```form.go``` files,```form_test.go```:  
+Crie um novo diretório com dois arquivos ```form.go``` e ```form_test.go```:  
 ```form.go```  
 ```go
 package form
@@ -286,7 +286,7 @@ func TestArea(t *testing.T) {
 	})
 }
 ```  
-Here we make a group of tests, running one after the other in sequence, if you don't want your application to stop the tests when giving an error, just change ```t.Fatalf``` to ```t.Errof```
+Aqui fazemos um grupo de testes, rodando um após o outro em sequência, caso não queira que sua aplicação pare os testes ao dar erro, basta alterar ```t.Fatalf``` para ```t. Erro```
 
 
 
